@@ -10,16 +10,18 @@ import {
   Pressable,
 } from "react-native";
 import products from "../data/products";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { cartSlice } from "../store/cartSlice";
 
 const ProductDetailsScreen = () => {
-  const product = useSelector((state) => state.products.selectedProduct) ; 
+  const product = useSelector((state) => state.products.selectedProduct);
+  const dispatch = useDispatch();
 
   const { width } = useWindowDimensions();
-  
+
   const addToCart = () => {
-    console.warn("Adicionado ao Carrinho MTF!");
-  }
+    dispatch(cartSlice.actions.addCartItem({product: product}))
+  };
 
   return (
     <View>
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 16,
   },
 });
