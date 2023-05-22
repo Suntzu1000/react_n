@@ -6,7 +6,8 @@ import { productsSlice } from "../store/productSlice";
 const ProductScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  // @ts-ignore
+  const products = useSelector((state) => state.products);
 
   return (
     <FlatList

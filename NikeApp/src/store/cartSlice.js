@@ -12,8 +12,34 @@ export const cartSlice = createSlice({
   reducers: {
     addCartItem: (state, action) => {
       const newProduct = action.payload.product;
-      state.items.push({ product: newProduct, quantity: 1 });
+      const cartItem = state.items.find(
+        // @ts-ignore
+        (item) => item.product.id === newProduct.id
+      );
+      if (cartItem) {
+        // @ts-ignore
+        cartItem.quantity += 1;
+      } else {
+        // @ts-ignore
+        state.items.push({ product: newProduct, quantity: 1 });
+      }
     },
-    changeQuantity: (state, action) => {},
+    changeQuantity: (state, action) => {
+      // @ts-ignore
+      const { productId, amount } = action.payload;
+      const cartItem = state.items.find(
+        // @ts-ignore
+        (item) => item.product.id === prodcutId
+      );
+      if(cartItem) {
+        // @ts-ignore
+        cartItem.quantity += amount
+      }
+
+      // @ts-ignore
+      if(cartItem.quantity <= 0) {
+       state.items = state.items.filter((item) => item != cartItem)
+      }
+    },
   },
 });

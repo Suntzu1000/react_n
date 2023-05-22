@@ -4,6 +4,7 @@ import CartListItem from "../components/CartListItem";
 import { useSelector } from "react-redux";
 
 const ShoppingCart = () => {
+  // @ts-ignore
   const cartItems = useSelector((state) => state.cart.items)
 
   return (
