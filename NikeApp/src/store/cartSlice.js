@@ -31,15 +31,23 @@ export const cartSlice = createSlice({
         // @ts-ignore
         (item) => item.product.id === prodcutId
       );
-      if(cartItem) {
+      if (cartItem) {
         // @ts-ignore
-        cartItem.quantity += amount
+        cartItem.quantity += amount;
       }
 
       // @ts-ignore
-      if(cartItem.quantity <= 0) {
-       state.items = state.items.filter((item) => item != cartItem)
+      if (cartItem.quantity <= 0) {
+        state.items = state.items.filter((item) => item != cartItem);
       }
     },
   },
 });
+
+export const selectNumberOfItems = (state) => state.cart.items.length;
+
+export const selectSubtotal = (state) =>
+  state.cart.items.reduce(
+    (sum, cartItem) => sum + cartItem.product.price * cartItem.quantity,
+    0
+  );

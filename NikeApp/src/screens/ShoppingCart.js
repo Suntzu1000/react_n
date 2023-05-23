@@ -1,41 +1,35 @@
 import React from "react";
 import { StyleSheet, Text, FlatList, View, Pressable } from "react-native";
-import CartListItem from "../components/CartListItem";
 import { useSelector } from "react-redux";
+import {
+  selectSubtotal,
+  cartSlice,
+} from '../store/cartSlice';
 
-const ShoppingCart = () => {
-  // @ts-ignore
-  const cartItems = useSelector((state) => state.cart.items)
+const ShoppingCartTotals = () => {
+  const subtotal = useSelector(selectSubtotal);
 
   return (
-    <>
-      <FlatList
-        data={cartItems}
-        renderItem={({ item }) => <CartListItem cartItem={item} />}
-        ListFooterComponent={() => (
-          <View style={styles.totalContainer}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Subtotal</Text>
-              <Text style={styles.text}>R$ 960,00</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.text}>Entrega</Text>
-              <Text style={styles.text}>R$ 10,00</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.textBold}>Total</Text>
-              <Text style={styles.textBold}>R$ 970,00</Text>
-            </View>
-          </View>
-        )}
-      />
-      <Pressable  style={styles.button}>
-        <Text style={styles.buttonText}>Verificar</Text>
-      </Pressable>
-    </>
+    <View style={styles.totalContainer}>
+      <View style={styles.row}>
+        <Text style={styles.text}>Subtotal</Text>
+        <Text style={styles.text}>{subtotal} US$</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.text}>Delivery</Text>
+        <Text style={styles.text}> US$</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.textBold}>Total</Text>
+        <Text style={styles.textBold}>US$</Text>
+      </View>
+    </View>
   );
 };
 
+const ShoppingCart = () => {
+  return <h1></h1>
+}
 const styles = StyleSheet.create({
   totalContainer: {
     margin: 20,
