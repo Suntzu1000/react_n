@@ -39,7 +39,7 @@ const Navigation = () => {
           component={ProductDetailsScreen}
           options={{ presentation: "modal" }}
         />
-        <Stack.Screen name="Carrinho" component={ShoppingCart} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

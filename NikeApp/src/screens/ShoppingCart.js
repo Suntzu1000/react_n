@@ -1,37 +1,166 @@
 import React from "react";
-import { StyleSheet, Text, FlatList, View, Pressable } from "react-native";
-import { useSelector } from "react-redux";
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  View,
+  // @ts-ignore
+  Pressable,
+  // @ts-ignore
+  Alert,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  useCreateOrderMutation,
+  useCreatePaymentIntentMutation,
+} from "../store/ApiSlice";
 import {
   selectSubtotal,
+  // @ts-ignore
   cartSlice,
-} from '../store/cartSlice';
+  selectDeliveryPrice,
+  selectTotal,
+} from "../store/cartSlice";
+import CartListItem from "../components/CartListItem";
 
 const ShoppingCartTotals = () => {
   const subtotal = useSelector(selectSubtotal);
+  const deliveryFee = useSelector(selectDeliveryPrice);
+  const total = useSelector(selectTotal);
 
   return (
-    <View style={styles.totalContainer}>
-      <View style={styles.row}>
-        <Text style={styles.text}>Subtotal</Text>
-        <Text style={styles.text}>{subtotal} US$</Text>
+    <View style={
+// @ts-ignore
+    styles.totalsContainer}>
+      <View style={
+// @ts-ignore
+      styles.row}>
+        <Text style={
+// @ts-ignore
+        styles.text}>Subtotal</Text>
+        <Text style={
+// @ts-ignore
+        styles.text}>{subtotal} US$</Text>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.text}>Delivery</Text>
-        <Text style={styles.text}> US$</Text>
+      <View style={
+// @ts-ignore
+      styles.row}>
+        <Text style={
+// @ts-ignore
+        styles.text}>Delivery</Text>
+        <Text style={
+// @ts-ignore
+        styles.text}>{deliveryFee} US$</Text>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.textBold}>Total</Text>
-        <Text style={styles.textBold}>US$</Text>
+      <View style={
+// @ts-ignore
+      styles.row}>
+        <Text style={
+// @ts-ignore
+        styles.textBold}>Total</Text>
+        <Text style={
+// @ts-ignore
+        styles.textBold}>{total} US$</Text>
       </View>
     </View>
   );
 };
 
-const ShoppingCart = () => {
-  return <h1></h1>
-}
+const ShoppingCart = () => {{
+  const subtotal = useSelector(selectSubtotal);
+  const deliveryFee = useSelector(selectDeliveryPrice);
+  const total = useSelector(selectTotal);
+  // @ts-ignore
+  const dispatch = useDispatch();
+
+  // @ts-ignore
+  const cartItems = useSelector((state) => state.cart.items);
+
+  // @ts-ignore
+  const [createOrder, { data, error, isLoading }] = useCreateOrderMutation();
+
+  // @ts-ignore
+  const [createPaymentIntent] = useCreatePaymentIntentMutation();
+
+  /*const onCheckout = async () => {
+    // 1. Create a payment intent
+    const response = await createPaymentIntent({
+      amount: Math.floor(total * 100),
+    });
+    if (response.error) {
+      Alert.alert("Something went wrong");
+      return;
+    }
+
+    // 2. Initialize the Payment sheet
+    const initResponse = await initPaymentSheet({
+      merchantDisplayName: "notJust.dev",
+      paymentIntentClientSecret: response.data.paymentIntent,
+    });
+    if (initResponse.error) {
+      console.log(initResponse.error);
+      Alert.alert("Something went wrong");
+      return;
+    }
+
+    // 3. Present the Payment Sheet from Stripe
+    const paymentResponse = await presentPaymentSheet();
+
+    if (paymentResponse.error) {
+      Alert.alert(
+        `Error code: ${paymentResponse.error.code}`,
+        paymentResponse.error.message
+      );
+      return;
+    }
+
+    // 4. If payment ok -> create the order
+    onCreateOrder();
+  };*/
+
+  // @ts-ignore
+  const onCreateOrder = async () => {
+    // @ts-ignore
+    const result = await createOrder({
+      items: cartItems,
+      subtotal,
+      deliveryFee,
+      total,
+      customer: {
+        name: "Vadim",
+        address: "My home",
+        email: "vadim@notjust.dev",
+      },
+    });
+
+    /*if (result.data?.status === "OK") {
+      Alert.alert(
+        "Pedido foi enviado!",
+        `A referência do seu pedido é: ${result.data.data.ref}`
+      );
+      dispatch(cartSlice.actions.clear());
+    }
+  };*/
+
+  return (
+    <>
+      <FlatList
+        data={cartItems}
+        renderItem={({ item }) => <CartListItem cartItem={item} />}
+        ListFooterComponent={ShoppingCartTotals}
+      />
+      {/*<Pressable onPress={onCheckout} style={styles.button}>*/}
+        <Text style={styles.buttonText}>
+          Checkout
+         {/*  {isLoading && <ActivityIndicator />}*/}
+        </Text>
+     {/* </Pressable> */}
+    </>
+  );
+};
+
 const styles = StyleSheet.create({
-  totalContainer: {
+  totalsContainer: {
     margin: 20,
     paddingTop: 10,
     borderColor: "gainsboro",
@@ -50,6 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
   },
+
   button: {
     position: "absolute",
     backgroundColor: "black",
@@ -62,9 +192,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 16,
   },
 });
 
-export default ShoppingCart;
+
+}}
+export default ShoppingCart;// @ts-ignore

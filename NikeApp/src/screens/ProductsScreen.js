@@ -1,13 +1,35 @@
-import React from "react";
-import { FlatList, Image, StyleSheet, Pressable } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
-import { productsSlice } from "../store/productSlice";
+import { useNavigation } from '@react-navigation/native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useGetProductsQuery } from '../store/ApiSlice';
+import React from 'react';
 
-const ProductScreen = ({ navigation }) => {
+const ProductsScreen = ({ navigation }) => {
+  // const navigation = useNavigation();
 
   const dispatch = useDispatch();
+
   // @ts-ignore
-  const products = useSelector((state) => state.products);
+  const { data, isLoading, error } = useGetProductsQuery();
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    // @ts-ignore
+    return <Text>Error fetching products: {error.error}</Text>;
+  }
+
+  const products = data.data;
 
   return (
     <FlatList
@@ -15,8 +37,10 @@ const ProductScreen = ({ navigation }) => {
       renderItem={({ item }) => (
         <Pressable
           onPress={() => {
-            dispatch(productsSlice.actions.setselectedProduct(item.id))
-            navigation.navigate("Detalhes Do Produto");
+            // update selected product
+            // dispatch(productsSlice.actions.setSelectedProduct(item.id));
+
+            navigation.navigate('Product Details', { id: item._id });
           }}
           style={styles.itemContainer}
         >
@@ -28,14 +52,15 @@ const ProductScreen = ({ navigation }) => {
   );
 };
 
-export default ProductScreen;
 const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    aspectRatio: 1,
-  },
   itemContainer: {
-    width: "50%",
+    width: '50%',
     padding: 1,
   },
+  image: {
+    width: '100%',
+    aspectRatio: 1,
+  },
 });
+
+export default ProductsScreen;
