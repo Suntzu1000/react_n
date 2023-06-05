@@ -4,7 +4,9 @@ const uri = "mongodb+srv://gabrielfootze:nObYujCMOtcFZJWa@nikeapp.7zpt8jp.mongod
 const client = new MongoClient(uri);
 const database = client.db("teste01");
 const products = database.collection("products");
+const orders = database.collection("orders");
 
 module.exports = {
-    products
+    products,
+    orders
 }
