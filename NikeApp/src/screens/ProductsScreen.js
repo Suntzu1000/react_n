@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { useGetProductsQuery } from '../store/ApiSlice';
+import { useGetProductsQuery } from '../store/apiSlice';
 import React from 'react';
 
 const ProductsScreen = ({ navigation }) => {

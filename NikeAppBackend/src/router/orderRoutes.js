@@ -2,9 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { createOrder, getOrder } = require("../database/orders");
 
-router.get("/:reference", (req, res) => {
-    const router = 
-  res.send(`Obtendo pedido com referência ${req.params.reference}`);
+router.get("/:reference", async (req, res) => {
+  const order = await getOrder(req.params.reference);
+  if (!order) {
+    res.status(404).send({ status: "FAILED", error: "PEDIDO NÃO ENCONTRADO!" });
+    return;
+  }
+  res.send({ status: "OK", data: order });
 });
 
 router.post("/", async (req, res) => {

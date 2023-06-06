@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   useCreateOrderMutation,
   useCreatePaymentIntentMutation,
-} from "../store/ApiSlice";
+} from "../store/apiSlice";
 import {
   selectSubtotal,
   // @ts-ignore
