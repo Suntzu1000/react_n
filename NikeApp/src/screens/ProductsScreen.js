@@ -40,7 +40,7 @@ const ProductsScreen = ({ navigation }) => {
             // update selected product
             // dispatch(productsSlice.actions.setSelectedProduct(item.id));
 
-            navigation.navigate('Product Details', { id: item._id });
+            navigation.navigate('Detalhes do Produto', { id: item._id });
           }}
           style={styles.itemContainer}
         >
