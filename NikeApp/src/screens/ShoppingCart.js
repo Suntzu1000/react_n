@@ -118,29 +118,28 @@ const ShoppingCart = () => {{
     onCreateOrder();
   };*/
 
-  // @ts-ignore
+
   const onCreateOrder = async () => {
-    // @ts-ignore
     const result = await createOrder({
       items: cartItems,
       subtotal,
       deliveryFee,
       total,
       customer: {
-        name: "Vadim",
+        name: "gabriel",
         address: "My home",
-        email: "vadim@notjust.dev",
+        email: "gabrielfootze@gmail.com",
       },
     });
 
-    /*if (result.data?.status === "OK") {
+    if (result.data?.status === "OK") {
       Alert.alert(
         "Pedido foi enviado!",
         `A referência do seu pedido é: ${result.data.data.ref}`
       );
       dispatch(cartSlice.actions.clear());
     }
-  };*/
+  };
 
   return (
     <>
@@ -152,7 +151,7 @@ const ShoppingCart = () => {{
       {/*<Pressable onPress={onCheckout} style={styles.button}>*/}
         <Text style={styles.buttonText}>
           Checkout
-         {/*  {isLoading && <ActivityIndicator />}*/}
+         {isLoading && <ActivityIndicator />}
         </Text>
      {/* </Pressable> */}
     </>
@@ -199,4 +198,4 @@ const styles = StyleSheet.create({
 
 
 }}
-export default ShoppingCart;// @ts-ignore
+export default ShoppingCart;

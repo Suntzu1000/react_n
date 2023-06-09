@@ -14,7 +14,7 @@ export const cartSlice = createSlice({
       const newProduct = action.payload.product;
       const cartItem = state.items.find(
         // @ts-ignore
-        (item) => item.product.id === newProduct.id
+        (item) => item.product._id === newProduct._id
       );
       if (cartItem) {
         // @ts-ignore
@@ -29,7 +29,7 @@ export const cartSlice = createSlice({
       const { productId, amount } = action.payload;
       const cartItem = state.items.find(
         // @ts-ignore
-        (item) => item.product.id === prodcutId
+        (item) => item.product._id === prodcutId
       );
       if (cartItem) {
         // @ts-ignore

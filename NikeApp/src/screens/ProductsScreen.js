@@ -17,19 +17,18 @@ const ProductsScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  // @ts-ignore
   const { data, isLoading, error } = useGetProductsQuery();
-
+  const products = data?.data;
   if (isLoading) {
     return <ActivityIndicator />;
   }
 
   if (error) {
-    // @ts-ignore
+
     return <Text>Error fetching products: {error.error}</Text>;
   }
 
-  const products = data.data;
+  
 
   return (
     <FlatList
@@ -37,8 +36,6 @@ const ProductsScreen = ({ navigation }) => {
       renderItem={({ item }) => (
         <Pressable
           onPress={() => {
-            // update selected product
-            // dispatch(productsSlice.actions.setSelectedProduct(item.id));
 
             navigation.navigate('Detalhes do Produto', { id: item._id });
           }}

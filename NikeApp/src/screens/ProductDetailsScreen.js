@@ -10,32 +10,31 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
-import products from "../data/products";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { cartSlice } from "../store/cartSlice";
 import { useGetProductQuery } from "../store/apiSlice";
 
 const ProductDetailsScreen = ({ route }) => {
   const id = route.params.id;
   const { data, isLoading, error } = useGetProductQuery(id);
-
+  const product = data?.data;
   const dispatch = useDispatch();
 
   const { width } = useWindowDimensions();
 
   const addToCart = () => {
-    dispatch(cartSlice.actions.addCartItem({ product: product }));
+    dispatch(cartSlice.actions.addCartItem({ product }));
   };
 
-  if(isLoading) {
-    return <ActivityIndicator />
+  if (isLoading) {
+    return <ActivityIndicator />;
   }
- 
+
   if (error) {
-    return  <Text>Erro ao buscar o produto {error.error}</Text>;
+    return <Text>Erro ao buscar o produto {error.error}</Text>;
   }
- 
-  const product = data.data
+
+  
 
   return (
     <View>

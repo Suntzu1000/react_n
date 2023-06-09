@@ -8,6 +8,7 @@ import { Pressable, Text } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { selectNumberOfItems } from "./store/cartSlice";
+import TrackOrder from "./screens/TrackOrder";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,7 +40,8 @@ const Navigation = () => {
           component={ProductDetailsScreen}
           options={{ presentation: "modal" }}
         />
-
+          <Stack.Screen name="Carrinho" component={ShoppingCart}/>
+          <Stack.Screen name="Track Order" component={TrackOrder}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
